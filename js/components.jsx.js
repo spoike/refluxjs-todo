@@ -231,19 +231,11 @@ var TodoFooter = React.createClass({
 });
 
 var TodoApp = React.createClass({
-    mixins: [Reflux.ListenerMixin],
+    mixins: [Reflux.connect(window.todoListStore, "list")],
     getInitialState: function() {
         return {
             list: []
         };
-    },
-    componentDidMount: function() {
-        this.listenTo(todoListStore, this.listChanged, this.listChanged);
-    },
-    listChanged: function(todoList) {
-        this.setState({
-            list: todoList
-        });
     },
     render: function() {
         return (
