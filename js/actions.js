@@ -1,15 +1,15 @@
-(function(Reflux, window) {
+var AppTodos = {};
+
+(function(Reflux, app) {
     'use strict';
 
-    var Todo = Reflux.createActions([
-        "toggle",
+    app.todoActions = Reflux.createActions([
+        "toggleItem",
         "toggleAll",
-        "add",
-        "remove",
+        "addItem",
+        "removeItem",
         "clearCompleted",
-        "edit"
+        "editItem"
     ]);
 
-    window.Todo = Todo;
-
-})(window.Reflux, window);
+})(Reflux, AppTodos);

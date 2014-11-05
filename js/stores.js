@@ -1,4 +1,4 @@
-(function(Reflux, Actions, window) {
+(function(Reflux, app) {
     'use strict';
 
     var todoCounter = 0,
@@ -28,16 +28,10 @@
         });
     }
 
-    window.todoListStore = Reflux.createStore({
+    app.todoListStore = Reflux.createStore({
         init: function() {
             this.list = loadList();
-
-            this.listenTo(Todo.toggle, this.toggleItem);
-            this.listenTo(Todo.toggleAll, this.toggleAll);
-            this.listenTo(Todo.add, this.addItem);
-            this.listenTo(Todo.remove, this.removeItem);
-            this.listenTo(Todo.clearCompleted, this.clearCompleted);
-            this.listenTo(Todo.edit, this.editItem);
+            this.listenToMany(app.todoActions);
         },
         _itemForKey: function(itemKey) {
             return _.find(this.list, function(item) {
@@ -91,8 +85,8 @@
     });
 
     // listen to changes on the todo list and persist it
-    window.todoListStore.listen(function(todoList) {
+    app.todoListStore.listen(function(todoList) {
         persistList(todoList);
     });
 
-})(window.Reflux, window.Actions, window);
+})(Reflux, AppTodos);
