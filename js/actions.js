@@ -2,12 +2,12 @@
     'use strict';
 
     var Todo = Reflux.createActions([
-        "toggle",
+        "toggleItem",
         "toggleAll",
-        "add",
-        "remove",
+        "addItem",
+        "removeItem",
         "clearCompleted",
-        "edit"
+        "editItem"
     ]);
 
     window.Todo = Todo;

@@ -1,4 +1,4 @@
-(function(Reflux, Actions, window) {
+(function(Reflux, window) {
     'use strict';
 
     var todoCounter = 0,
@@ -31,13 +31,7 @@
     window.todoListStore = Reflux.createStore({
         init: function() {
             this.list = loadList();
-
-            this.listenTo(Todo.toggle, this.toggleItem);
-            this.listenTo(Todo.toggleAll, this.toggleAll);
-            this.listenTo(Todo.add, this.addItem);
-            this.listenTo(Todo.remove, this.removeItem);
-            this.listenTo(Todo.clearCompleted, this.clearCompleted);
-            this.listenTo(Todo.edit, this.editItem);
+            this.listenToMany(window.Todo);
         },
         _itemForKey: function(itemKey) {
             return _.find(this.list, function(item) {
@@ -95,4 +89,4 @@
         persistList(todoList);
     });
 
-})(window.Reflux, window.Actions, window);
+})(window.Reflux, window);

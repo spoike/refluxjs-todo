@@ -36,7 +36,7 @@ var TodoItem = React.createClass({
         this.setState(this.buildState(nextProps.item));
     },
     handleToggle: function(evt) {
-        Todo.toggle(this.props.item, evt.target.checked);
+        Todo.toggleItem(this.props.item, evt.target.checked);
     },
     handleEdit: function(evt) {
         evt.preventDefault();
@@ -55,7 +55,7 @@ var TodoItem = React.createClass({
         }
 
         if (isEnterKeyPressed(evt) && isNotEmpty(text)) {
-            Todo.edit(this.props.item.key, this.state.editValue);
+            Todo.editItem(this.props.item.key, this.state.editValue);
         }
         else if (isEscapeKeyPressed(evt)) {
             this.setState({
@@ -65,11 +65,11 @@ var TodoItem = React.createClass({
     },
     handleBlur: function() {
         if (this.state.isEditing) {
-            Todo.edit(this.props.item.key, this.state.editValue);
+            Todo.editItem(this.props.item.key, this.state.editValue);
         }
     },
     handleDestroy: function() {
-        Todo.remove(this.props.item);
+        Todo.removeItem(this.props.item);
     },
     render: function() {
         var classes = React.addons.classSet({
@@ -160,7 +160,7 @@ var TodoHeader = React.createClass({
     addTodo: function(evt) {
         var text = evt.target.value;
         if (isEnterKeyPressed(evt) && isNotEmpty(text)) { // enter key pressed
-            Todo.add(text);
+            Todo.addItem(text);
             evt.target.value = '';
         } else if (isEscapeKeyPressed(evt)) {
             evt.target.value = '';
@@ -231,19 +231,11 @@ var TodoFooter = React.createClass({
 });
 
 var TodoApp = React.createClass({
-    mixins: [Reflux.ListenerMixin],
+    mixins: [Reflux.connect(window.todoListStore, "list")],
     getInitialState: function() {
         return {
             list: []
         };
-    },
-    componentDidMount: function() {
-        this.listenTo(todoListStore, this.listChanged, this.listChanged);
-    },
-    listChanged: function(todoList) {
-        this.setState({
-            list: todoList
-        });
     },
     render: function() {
         return (
