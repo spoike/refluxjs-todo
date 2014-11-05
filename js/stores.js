@@ -1,4 +1,4 @@
-(function(Reflux, window) {
+(function(Reflux, app) {
     'use strict';
 
     var todoCounter = 0,
@@ -28,10 +28,10 @@
         });
     }
 
-    window.todoListStore = Reflux.createStore({
+    app.todoListStore = Reflux.createStore({
         init: function() {
             this.list = loadList();
-            this.listenToMany(window.Todo);
+            this.listenToMany(app.todoActions);
         },
         _itemForKey: function(itemKey) {
             return _.find(this.list, function(item) {
@@ -85,8 +85,8 @@
     });
 
     // listen to changes on the todo list and persist it
-    window.todoListStore.listen(function(todoList) {
+    app.todoListStore.listen(function(todoList) {
         persistList(todoList);
     });
 
-})(window.Reflux, window);
+})(Reflux, AppTodos);

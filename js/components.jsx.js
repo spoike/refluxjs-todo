@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var Todo = AppTodos.todoActions;
 
 function isEnterKeyPressed(evt) {
     return evt.which === 13;
@@ -231,7 +232,7 @@ var TodoFooter = React.createClass({
 });
 
 var TodoApp = React.createClass({
-    mixins: [Reflux.connect(window.todoListStore, "list")],
+    mixins: [Reflux.connect(AppTodos.todoListStore, "list")],
     getInitialState: function() {
         return {
             list: []

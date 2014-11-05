@@ -1,7 +1,9 @@
-(function(Reflux, window) {
+var AppTodos = {};
+
+(function(Reflux, app) {
     'use strict';
 
-    var Todo = Reflux.createActions([
+    app.todoActions = Reflux.createActions([
         "toggleItem",
         "toggleAll",
         "addItem",
@@ -10,6 +12,4 @@
         "editItem"
     ]);
 
-    window.Todo = Todo;
-
-})(window.Reflux, window);
+})(Reflux, AppTodos);
