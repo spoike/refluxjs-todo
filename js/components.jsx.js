@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 (function(React, Reflux, app) {
-    var Todo = app.todoActions;
+    var actions = app.todoActions;
 
     function isEnterKeyPressed(evt) {
         return evt.which === 13;
@@ -38,7 +38,7 @@
             this.setState(this.buildState(nextProps.item));
         },
         handleToggle: function(evt) {
-            Todo.toggleItem(this.props.item, evt.target.checked);
+            actions.toggleItem(this.props.item, evt.target.checked);
         },
         handleEdit: function(evt) {
             evt.preventDefault();
@@ -57,7 +57,7 @@
             }
 
             if (isEnterKeyPressed(evt) && isNotEmpty(text)) {
-                Todo.editItem(this.props.item.key, this.state.editValue);
+                actions.editItem(this.props.item.key, this.state.editValue);
             }
             else if (isEscapeKeyPressed(evt)) {
                 this.setState({
@@ -67,11 +67,11 @@
         },
         handleBlur: function() {
             if (this.state.isEditing) {
-                Todo.editItem(this.props.item.key, this.state.editValue);
+                actions.editItem(this.props.item.key, this.state.editValue);
             }
         },
         handleDestroy: function() {
-            Todo.removeItem(this.props.item);
+            actions.removeItem(this.props.item);
         },
         render: function() {
             var classes = React.addons.classSet({
@@ -128,7 +128,7 @@
             });
         },
         toggleAll: function(evt) {
-            Todo.toggleAll(evt.target.checked);
+            actions.toggleAll(evt.target.checked);
         },
         render: function() {
             var state = this.props.state;
@@ -162,7 +162,7 @@
         addTodo: function(evt) {
             var text = evt.target.value;
             if (isEnterKeyPressed(evt) && isNotEmpty(text)) { // enter key pressed
-                Todo.addItem(text);
+                actions.addItem(text);
                 evt.target.value = '';
             } else if (isEscapeKeyPressed(evt)) {
                 evt.target.value = '';
@@ -203,7 +203,7 @@
             });
         },
         clearCompleted: function() {
-            Todo.clearCompleted();
+            actions.clearCompleted();
         },
         render: function() {
             var completedLabel = "Clear completed (" + this.state.completedCount + ")",
