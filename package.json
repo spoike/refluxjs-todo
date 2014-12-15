@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepublish": "bower install",
+    "start": "npm install && grunt",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
