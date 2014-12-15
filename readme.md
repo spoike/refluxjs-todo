@@ -11,16 +11,14 @@ TODO
 
 ## Running
 
-Install dependencies with bower and npm. You'll first need to have [bower](http://bower.io/) and [npm](npmjs.org) installed to do so. Then run the following:
+You only need [Node.js](http://nodejs.org/) installed to build and run this application.
+
+This project comes with a grunt task to run a [`connect`]() web server and open up the web browser for you.
+
+To install all dependencies, build and run the app, and open the browser, simply run:
 
 ```
-bower install && npm install
-```
-
-This project comes with a grunt task to runs a [`connect`]() web server and opens up the web browser for you. Just run:
-
-```
-grunt
+npm start
 ```
 
 ## Credit
