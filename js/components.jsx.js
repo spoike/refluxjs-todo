@@ -1,7 +1,8 @@
 (function(React, RR, Reflux, app) {
 
 	// Renders a single Todo item in the list
-    // Used in TodoList
+	// Used in TodoList
+	
     var TodoItem = React.createClass({
         propTypes: {
             label: React.PropTypes.string.isRequired,
