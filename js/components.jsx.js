@@ -6,14 +6,14 @@
         propTypes: {
             label: React.PropTypes.string.isRequired,
             isComplete: React.PropTypes.bool.isRequired,
-            index: React.PropTypes.number            
+            itemKey: React.PropTypes.number            
         },
         mixins: [React.addons.LinkedStateMixin], // exposes this.linkState used in render
         getInitialState: function() {
             return {};
         },
         handleToggle: function(evt) {
-            app.todoActions.toggleItem(this.props.index);
+            app.todoActions.toggleItem(this.props.itemKey);
         },
         handleEditStart: function(evt) {
             evt.preventDefault();
@@ -42,13 +42,13 @@
             var text = this.state.editValue; // because of the linkState call in render, this is the contents of the field
             // unless we're not editing (escape was pressed) or text is empty, save!
             if (this.state.isEditing && text) {
-                app.todoActions.editItem(this.props.index, text);
+                app.todoActions.editItem(this.props.itemKey, text);
             }
             // whatever the outcome, if we left the field we're not editing anymore
             this.setState({isEditing:false});
         },
         handleDestroy: function() {
-            app.todoActions.removeItem(this.props.index);
+            app.todoActions.removeItem(this.props.itemKey);
         },
         render: function() {
             var classes = React.addons.classSet({
@@ -98,7 +98,7 @@
                     <input id="toggle-all" type="checkbox" onChange={this.toggleAll} />
                     <label htmlFor="toggle-all">Mark all as complete</label>
                     <ul id="todo-list">
-                        { filteredList.map(function(item){return <TodoItem label={item.label} isComplete={item.isComplete}  key={item.key} index={item.key}/>; }) }
+                        { filteredList.map(function(item){return <TodoItem label={item.label} isComplete={item.isComplete} key={item.key} itemKey={item.key}/>; }) }
                     </ul>
                 </section>
             );
