@@ -1,6 +1,6 @@
-(function(Reflux, TodoActions, global) {
+(function(Reflux, app) {
     'use strict';
-
+	
     // some variables and helpers for our fake database stuff
     var todoCounter = 0,
         localStorageKey = "todos";
@@ -11,9 +11,9 @@
         });
     }
 
-    global.todoListStore = Reflux.createStore({
-        // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
-        listenables: [TodoActions],
+    app.todoListStore = Reflux.createStore({
+        // this will set up listeners to all publishers in app.todoActions, using onKeyname (or keyname) as callbacks
+        listenables: [app.todoActions],
         onEditItem: function(itemKey, newLabel) {
             var foundItem = getItemByKey(this.list,itemKey);
             if (!foundItem) {
@@ -82,4 +82,4 @@
         }
     });
 
-})(window.Reflux, window.TodoActions, window);
+})(window.Reflux, window.todoApp);
