@@ -8,14 +8,14 @@
         propTypes: {
             label: React.PropTypes.string.isRequired,
             isComplete: React.PropTypes.bool.isRequired,
-            key: React.PropTypes.number
+            key: React.PropTypes.number            
         },
         mixins: [React.addons.LinkedStateMixin], // exposes this.linkState used in render
         getInitialState: function() {
             return {};
         },
         handleToggle: function(evt) {
-            TodoActions.toggleItem(this.props.key);
+            TodoActions.toggleItem(this.key);
         },
         handleEditStart: function(evt) {
             evt.preventDefault();
@@ -44,13 +44,13 @@
             var text = this.state.editValue; // because of the linkState call in render, this is the contents of the field
             // unless we're not editing (escape was pressed) or text is empty, save!
             if (this.state.isEditing && text) {
-                TodoActions.editItem(this.props.key, text);
+                TodoActions.editItem(this.key, text);
             }
             // whatever the outcome, if we left the field we're not editing anymore
             this.setState({isEditing:false});
         },
         handleDestroy: function() {
-            TodoActions.removeItem(this.props.key);
+            TodoActions.removeItem(this.key);
         },
         render: function() {
             var classes = React.addons.classSet({
@@ -73,6 +73,7 @@
     // Renders the todo list as well as the toggle all button
     // Used in TodoApp
     var TodoMain = React.createClass({
+        mixins: [ ReactRouter.State ],
         propTypes: {
             list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         },
@@ -81,7 +82,7 @@
         },
         render: function() {
             var filteredList;
-            switch(this.props.showing){
+            switch(this.getParams().show){
                 case 'all':
                     filteredList = this.props.list;
                     break;
@@ -148,13 +149,13 @@
                     <span id="todo-count"><strong>{nbrincomplete}</strong>{itemsLeftLabel}</span>
                     <ul id="filters">
                         <li>
-                            <ReactRouter.Link activeClassName="selected" to="All">All</ReactRouter.Link>
+                            <ReactRouter.Link activeClassName="selected" to="todo" params={{show : 'all'}}>All</ReactRouter.Link>
                         </li>
                         <li>
-                            <ReactRouter.Link activeClassName="selected" to="Active">Active</ReactRouter.Link>
+                            <ReactRouter.Link activeClassName="selected" to="todo" params={{show : 'active'}}>Active</ReactRouter.Link>
                         </li>
                         <li>
-                            <ReactRouter.Link activeClassName="selected" to="Completed">Completed</ReactRouter.Link>
+                            <ReactRouter.Link activeClassName="selected" to="todo" params={{show : 'completed'}}>Completed</ReactRouter.Link>
                         </li>
                     </ul>
                     <button id="clear-completed" className={clearButtonClass} onClick={TodoActions.clearCompleted}>{completedLabel}</button>
@@ -177,7 +178,7 @@
             return (
                 <div>
                     <TodoHeader />
-                    <this.props.activeRouteHandler list={this.state.list} />
+                    <ReactRouter.RouteHandler list={this.state.list}/>
                     <TodoFooter list={this.state.list} />
                 </div>
             );
@@ -185,16 +186,14 @@
     });
 
     var routes = (
-        <ReactRouter.Routes location="hash">
-            <ReactRouter.Route handler={TodoApp}>
-                <ReactRouter.Route name="All" path="/" handler={TodoMain} showing="all" />
-                <ReactRouter.Route name="Completed" path="/completed" handler={TodoMain} showing="completed" />
-                <ReactRouter.Route name="Active" path="/active" handler={TodoMain} showing="active" />
-            </ReactRouter.Route>
-        </ReactRouter.Routes>
+        <ReactRouter.Route handler={TodoApp} >
+            <ReactRouter.Route name="todo" path="/:show" handler={TodoMain} />
+        </ReactRouter.Route>
     );
 
-    React.renderComponent(routes, document.getElementById('todoapp'));
+    ReactRouter.run(routes, function (Handler) {
+      React.render(<Handler />, document.getElementById('todoapp'));
+    });
 
 
 })(window.React, window.ReactRouter, window.Reflux, window.TodoActions, window.todoListStore, window);
