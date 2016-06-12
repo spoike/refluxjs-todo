@@ -24,6 +24,15 @@
                 this.refs.editInput.getDOMNode().focus();
             });
         },
+        handleCompleted: function(evt){
+            evt.preventDefault();
+            // because of linkState call in render, field will get value from this.state.editValue
+            setTimeout(function () {
+                if(!this.state.isEditing){
+                    this.refs.toggleCompleted.getDOMNode().click();
+                }
+            }.bind(this), 200);
+        },
         handleValueChange: function(evt) {
             var text = this.state.editValue; // because of the linkState call in render, this is the contents of the field
             // we pressed enter, if text isn't empty we blur the field which will cause a save
@@ -57,8 +66,8 @@
             return (
                 <li className={classes}>
                     <div className="view">
-                        <input className="toggle" type="checkbox" checked={!!this.props.isComplete} onChange={this.handleToggle} />
-                        <label onDoubleClick={this.handleEditStart}>{this.props.label}</label>
+                        <input ref="toggleCompleted" className="toggle" type="checkbox" checked={!!this.props.isComplete} onChange={this.handleToggle} />
+                        <label onDoubleClick={this.handleEditStart} onClick={this.handleCompleted}>{this.props.label}</label>
                         <button className="destroy" onClick={this.handleDestroy}></button>
                     </div>
                     <input ref="editInput" className="edit" valueLink={this.linkState('editValue')} onKeyUp={this.handleValueChange} onBlur={this.handleBlur} />
