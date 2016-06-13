@@ -4,7 +4,7 @@
 
     // Renders the todo list as well as the toggle all button
     // Used in TodoApp
-    global.TodoMain = React.createClass({
+    global.TodoList = React.createClass({
         mixins: [ ReactRouter.State ],
         propTypes: {
             list: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,

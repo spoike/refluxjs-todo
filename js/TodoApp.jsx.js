@@ -1,6 +1,6 @@
 (function(React, ReactRouter, Reflux, TodoHeader, TodoFooter, todoListStore, global) {
     // Renders the full application
-    // RouteHandler will always be TodoMain, but with different 'showing' prop (all/completed/active)
+    // RouteHandler will always be TodoList, but with different 'showing' prop (all/completed/active)
     global.TodoApp = React.createClass({
         // this will cause setState({list:updatedlist}) whenever the store does trigger(updatedlist)
         mixins: [Reflux.connect(todoListStore,"list")],
